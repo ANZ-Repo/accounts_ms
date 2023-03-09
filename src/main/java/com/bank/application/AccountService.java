@@ -1,6 +1,7 @@
 package com.bank.application;
 
 import com.bank.api.AccountDetailsDTO;
+import com.bank.exception.DataNotFoundException;
 import com.bank.repository.entity.TransactionDetails;
 import com.bank.api.TransactionDetailsDTO;
 import com.bank.repository.entity.AccountDetails;
@@ -15,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 
@@ -30,11 +30,12 @@ public class AccountService {
     private TransactionDetailsRepository transactionDetailsRepository;
 
     public List<AccountDetailsDTO> getAccountDetailsList(Long userId, Integer pageNo, Integer pageSize) {
+        log.debug("message=\"Retrieve Account Details ");
         Pageable paging = PageRequest.of(pageNo, pageSize);
         List<AccountDetails> accountDetailsList = accountDetailsRepository.findByUserId(userId, paging);
         if (accountDetailsList.isEmpty()) {
             log.info("message=\"No Accounts found for User Id " + userId);
-            throw new NoSuchElementException("Customer Id Not Found");
+            throw new DataNotFoundException("Customer Id Not Found");
         }
         return accountDetailsList.stream().map(accountDetails -> AccountDetailsDTO.builder()
                 .userId(accountDetails.getUserId())
@@ -48,14 +49,13 @@ public class AccountService {
     }
 
     public List<TransactionDetailsDTO> getTransactionDetailsList(Integer pageNo, Integer pageSize, String sortBy, Long accountId) {
-
+        log.debug("message=\"Retrieve Transaction History ");
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
         List<TransactionDetails> transactionDetailsList = transactionDetailsRepository.findByAccountAccountId(accountId, paging);
         if (transactionDetailsList.isEmpty()) {
             log.info("message=\"No Transaction History for Account Id " + accountId);
-            throw new NoSuchElementException("Transactions Not Found");
+            throw new DataNotFoundException("Transactions Not Found");
         }
-
         return transactionDetailsList.stream().map(transactionDetails -> TransactionDetailsDTO.builder()
                 .accountId(transactionDetails.getAccount().getAccountId())
                 .accountName(transactionDetails.getAccount().getAccountName())

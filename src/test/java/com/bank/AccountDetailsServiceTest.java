@@ -2,6 +2,7 @@ package com.bank;
 
 import com.bank.api.AccountDetailsDTO;
 import com.bank.application.AccountService;
+import com.bank.exception.DataNotFoundException;
 import com.bank.repository.entity.AccountDetails;
 import com.bank.repository.entity.TransactionDetails;
 import com.bank.api.TransactionDetailsDTO;
@@ -77,13 +78,13 @@ public class AccountDetailsServiceTest {
     void testTransactionDetailsIdNotFound(){
         Pageable paging = PageRequest.of(1, 10, Sort.by("transdate").descending());
         when(transactionDetailsRepository.findByAccountAccountId(eq(1L),eq(paging))).thenReturn(List.of());
-        assertThrows(NoSuchElementException.class, ()->accountService.getTransactionDetailsList(1, 10, "transdate", 1L));
+        assertThrows(DataNotFoundException.class, ()->accountService.getTransactionDetailsList(1, 10, "transdate", 1L));
     }
     @Test
     void testAccountDetailsIdNotFound(){
         Pageable paging = PageRequest.of(1, 10);
         when(accountDetailsRepository.findByUserId(eq(2L),eq(paging))).thenReturn(List.of());
-        assertThrows(NoSuchElementException.class, ()->accountService.getAccountDetailsList(2L,1,10));
+        assertThrows(DataNotFoundException.class, ()->accountService.getAccountDetailsList(2L,1,10));
     }
 
 }

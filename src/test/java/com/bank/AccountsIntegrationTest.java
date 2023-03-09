@@ -10,7 +10,7 @@ import static io.restassured.RestAssured.given;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class AccountsIntegrationTest {
 
-    private static final String ACCOUNT_LIST_PATH= "http://localhost:8080/user/100/accounts";
+    private static final String ACCOUNT_LIST_PATH= "http://localhost:8080/users/100/accounts";
 
     private static final String TRANSACTIONS_LIST_PATH= "http://localhost:8080/accounts/23456/transactions";
     @Test

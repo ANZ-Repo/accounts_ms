@@ -16,7 +16,7 @@ public class AccountDetailsController {
     @Autowired
     private AccountService accountService;
 
-    @GetMapping("user/{user_id}/accounts")
+    @GetMapping("users/{user_id}/accounts")
     public ResponseEntity<List<AccountDetailsDTO>> getAccountDetails(
             @PathVariable("user_id") Long userId,
             @RequestParam(defaultValue = "0") Integer pageNo,

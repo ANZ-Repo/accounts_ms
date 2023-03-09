@@ -13,11 +13,18 @@ import java.util.NoSuchElementException;
 @ControllerAdvice
 public class GlobalErrorHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = {NoSuchElementException.class})
+    @ExceptionHandler(value = {DataNotFoundException.class})
     protected ResponseEntity<Object> handleInvalidDataException(
             RuntimeException ex, WebRequest request) {
         return new ResponseEntity<>(Errors.builder().message(ex.getMessage())
                 .errorId(HttpStatus.BAD_REQUEST.value()).build(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {Exception.class})
+    protected ResponseEntity<Object> handleException(
+            RuntimeException ex, WebRequest request) {
+        return new ResponseEntity<>(Errors.builder().message(ex.getMessage())
+                .errorId(HttpStatus.INTERNAL_SERVER_ERROR.value()).build(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
