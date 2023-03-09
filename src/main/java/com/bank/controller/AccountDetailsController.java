@@ -3,6 +3,7 @@ package com.bank.controller;
 import com.bank.api.AccountDetailsDTO;
 import com.bank.application.AccountService;
 import com.bank.api.TransactionDetailsDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class AccountDetailsController {
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
 
     @GetMapping("users/{user_id}/accounts")
     public ResponseEntity<List<AccountDetailsDTO>> getAccountDetails(
