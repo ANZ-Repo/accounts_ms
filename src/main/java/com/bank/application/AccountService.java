@@ -9,7 +9,6 @@ import com.bank.repository.AccountDetailsRepository;
 import com.bank.repository.TransactionDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,10 +23,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AccountService {
 
-    @Autowired
-    private AccountDetailsRepository accountDetailsRepository;
-    @Autowired
-    private TransactionDetailsRepository transactionDetailsRepository;
+    private final AccountDetailsRepository accountDetailsRepository;
+
+    private final TransactionDetailsRepository transactionDetailsRepository;
 
     public List<AccountDetailsDTO> getAccountDetailsList(Long userId, Integer pageNo, Integer pageSize) {
         log.debug("message=\"Retrieve Account Details ");
